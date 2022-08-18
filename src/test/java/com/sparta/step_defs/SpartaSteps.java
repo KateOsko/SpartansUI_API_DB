@@ -1,26 +1,69 @@
 package com.sparta.step_defs;
 
+import com.sparta.pojo.Spartan;
+import com.sparta.utilities.ConfigurationReader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static io.restassured.RestAssured.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class SpartaSteps {
 
+
+    int spartanId;
     @Given("user hits and POST a spartan on api “endpoint”")
-    public void user_hits_and_post_a_spartan_on_api_endpoint(io.cucumber.datatable.DataTable dataTable) {
-        // Write code here that turns the phrase above into concrete actions
-        // For automatic transformation, change DataTable to one of
-        // E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
-        // Map<K, List<V>>. E,K,V must be a String, Integer, Float,
-        // Double, Byte, Short, Long, BigInteger or BigDecimal.
-        //
-        // For other transformations you can register a DataTableType.
-        throw new io.cucumber.java.PendingException();
+    public void user_hits_and_post_a_spartan_on_api_endpoint( Map<String, Object> jasonBody) {
+
+
+        RestAssured.baseURI = ConfigurationReader.getProperty("spartan.api.url");
+
+        Response response = given().accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .body(jasonBody)
+                .post("/spartans");
+
+        response.prettyPrint();
+        assertEquals(HttpStatus.SC_CREATED,response.statusCode());
+
+        JsonPath jsonPath = response.jsonPath();
+
+        assertEquals(jsonPath.getString("data.name"), jasonBody.get("name"));
+        assertEquals(jsonPath.getString("data.gender"), jasonBody.get("gender"));
+        assertEquals(jsonPath.getString("data.phone"), jasonBody.get("phone")  + "" );
+
+        spartanId = jsonPath.getInt("data.id");
+
     }
     @When("user hit and GETs “already created” users’ info from Spartans api “endpoint”")
     public void user_hit_and_ge_ts_already_created_users_info_from_spartans_api_endpoint() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+
+        RestAssured.baseURI = ConfigurationReader.getProperty("spartan.api.url");
+
+        Response response = given().accept(ContentType.JSON)
+                .pathParam("id",spartanId)
+                .get("/spartans/{id}");
+
+        response.prettyPrint();
+
+        assertEquals(HttpStatus.SC_OK,response.statusCode());
+
+        Spartan spartan = response.as(Spartan.class);
+        assertEquals(spartan.getId(),spartanId);
+        assertEquals(spartan.getName(),"Michael");
+        assertEquals(spartan.getGender(),"Male");
+        assertEquals(spartan.getPhone(),3124737289L);
+
     }
     //========================ANA======================
 
@@ -65,7 +108,6 @@ public class SpartaSteps {
         // Write code here that turns the phrase above into concrete actions
         throw new io.cucumber.java.PendingException();
     }
-
 
 
 

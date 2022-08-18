@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
         },
         features = "src/test/resources/features" ,
         glue = "com/sparta/step_defs",
-        dryRun = true,
+        dryRun = false,
         tags = ""
 )
 public class CukesRunner {
