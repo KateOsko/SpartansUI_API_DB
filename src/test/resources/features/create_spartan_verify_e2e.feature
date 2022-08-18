@@ -2,9 +2,9 @@ Feature: Create a spartan and verify E2E
   Scenario: User should be able to create a Spartan on API and verify created spartans information between UI -API-DB
 
   Given user hits and POST a spartan on api “endpoint”
-  | name    | Michael           |
-  | gender  | Katee             |
-  | phone   | 3124737289        |
+    | name   | Michael    |
+    | gender | Male       |
+    | phone  | 3124737289 |
     When user hit and GETs “already created” users’ info from Spartans api “endpoint”
     When User connects to DB
     And   User gets created spartan’s info from DB
