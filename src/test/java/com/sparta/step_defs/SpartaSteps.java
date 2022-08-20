@@ -3,6 +3,7 @@ package com.sparta.step_defs;
 import com.sparta.pojo.Spartan;
 import com.sparta.utilities.BrowserUtil;
 import com.sparta.utilities.ConfigurationReader;
+import com.sparta.utilities.DB_Util;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -17,11 +18,12 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.sparta.utilities.DB_Util.spartanId;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class SpartaSteps extends BrowserUtil  {
+public class SpartaSteps  {
 
 
     @Given("user hits and POST a spartan on api “endpoint”")
@@ -44,7 +46,7 @@ public class SpartaSteps extends BrowserUtil  {
         assertEquals(jsonPath.getString("data.gender"), jasonBody.get("gender"));
         assertEquals(jsonPath.getString("data.phone"), jasonBody.get("phone") + "");
 
-        BrowserUtil.spartanId = jsonPath.getInt("data.id");
+        spartanId = jsonPath.getInt("data.id");
 
     }
 
@@ -72,12 +74,12 @@ public class SpartaSteps extends BrowserUtil  {
 
     @When("User connects to DB")
     public void user_connects_to_db() {
-        BrowserUtil.createConnection();
+        DB_Util.createConnection();
     }
 
     @And("User gets created spartan’s info from DB")
     public void userGetsCreatedSpartanSInfoFromDB() throws SQLException {
-        BrowserUtil.getSpartanInfo();
+        DB_Util.getSpartanInfo();
 
     }
 

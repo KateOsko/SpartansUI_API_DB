@@ -16,40 +16,7 @@ import java.util.Map;
 
 
 public class BrowserUtil {
-    static Connection connection;
-    static Statement statement;
-    static ResultSet resultSet;
 
-    public static int spartanId;
-
-    public static void createConnection() {
-        String dbUrl = ConfigurationReader.getProperty("spartan.db.url");
-        String dbUser = ConfigurationReader.getProperty("spartan.db.username");
-        String pass = ConfigurationReader.getProperty("spartan.db.password");
-        try {
-            connection = DriverManager.getConnection(dbUrl, dbUser, pass);
-            System.out.println("The connection is successful");
-        } catch (SQLException e) {
-
-            e.printStackTrace();
-        }
-    }
-
-
-    public static void getSpartanInfo() throws SQLException {
-
-        statement = connection.createStatement();
-        resultSet = statement.executeQuery("SELECT name, gender, phone, spartan_id FROM spartans WHERE spartan_id = " + spartanId);
-        while (resultSet.next()) {
-            System.out.println(resultSet.getString("NAME")
-                    + " - " + resultSet.getString("GENDER")
-                    + " - " + resultSet.getLong("PHONE")
-                    + " - " + resultSet.getInt("SPARTAN_ID"));
-            }
-        }
-
-
-//
         /**
          * Switches to new window by the exact title. Returns to original window if target title not found
          *
