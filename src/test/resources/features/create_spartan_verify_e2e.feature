@@ -1,3 +1,4 @@
+@feature1
 Feature: Create a spartan and verify E2E
   Scenario: User should be able to create a Spartan on API and verify created spartans information between UI -API-DB
 

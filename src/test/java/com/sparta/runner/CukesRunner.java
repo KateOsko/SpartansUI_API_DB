@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
         features = "src/test/resources/features" ,
         glue = "com/sparta/step_defs",
         dryRun = false,
-        tags = ""
+        tags = "@feature1"
 )
 public class CukesRunner {
 
