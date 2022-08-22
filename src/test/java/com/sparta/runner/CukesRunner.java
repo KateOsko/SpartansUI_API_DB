@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
         dryRun = false,
         tags = "@feature1"
 )
-public class CukesRunner {
+public class CukesRunner  {
 
 }
 
