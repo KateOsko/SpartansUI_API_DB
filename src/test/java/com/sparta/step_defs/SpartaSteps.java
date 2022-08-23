@@ -15,10 +15,11 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 
+
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 
 public class SpartaSteps {
@@ -45,10 +46,10 @@ public class SpartaSteps {
 
 
     @Given("user hits and POST a spartan on api {string}")
-    public void user_hits_and_post_a_spartan_on_api_endpoint( String endpoint,Map<String, Object> jasonBody) {
-        expectedName = (String) jasonBody.get("name");
-        expectedPhone = (String) jasonBody.get("phone");
-        expectedGender= (String) jasonBody.get("gender");
+    public void user_hits_and_post_a_spartan_on_api_endpoint( String endpoint,Map<String, String> jasonBody) {
+        expectedName =jasonBody.get("name");
+        expectedPhone = jasonBody.get("phone");
+        expectedGender= jasonBody.get("gender");
 
 
         RestAssured.baseURI = ConfigurationReader.getProperty("spartan.api.url");
